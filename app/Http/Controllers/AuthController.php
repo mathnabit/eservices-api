@@ -35,9 +35,21 @@ class AuthController extends Controller
         }
         $token = $user->createToken('api_token')->plainTextToken;
         return response()->json([
-            'user' => $user,
             'token' => $token
         ]);
+    }
+    // Get AuthenticatedUser 
+    public function getUser(Request $request)
+    {
+        // Fetch the associated token Model
+        // $token = \Laravel\Sanctum\PersonalAccessToken::findToken($request->token);
+        // // Get the assigned user
+        // $user = $token->tokenable;
+        
+        // return response()->json([
+        //     'user' => $user
+        // ]);
+        return response()->json(auth()->user());
     }
     // Logout
     public function logout()

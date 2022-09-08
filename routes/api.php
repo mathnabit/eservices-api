@@ -22,6 +22,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 // Protected routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::post('/logout',[AuthController::class, 'logout']);
+    Route::get('/user',[AuthController::class, 'getUser']);
 });
 
 Route::post('/register',[AuthController::class, 'register']);
