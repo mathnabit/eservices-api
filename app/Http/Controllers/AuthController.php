@@ -35,14 +35,33 @@ class AuthController extends Controller
         }
         $token = $user->createToken('api_token')->plainTextToken;
         return response()->json([
-            'user' => $user,
             'token' => $token
         ]);
     }
-    // Logout
-    public function logout()
+    // Get AuthenticatedUser 
+    public function getUser(Request $request)
     {
-        auth()->user()->tokens()->delete();
+        // Fetch the associated token Model
+        // $token = \Laravel\Sanctum\PersonalAccessToken::findToken($request->token);
+        // // Get the assigned user
+        // $user = $token->tokenable;
+        
+        // return response()->json([
+        //     'user' => $user
+        // ]);
+        return response()->json(auth()->user());
+    }
+    // Logout
+    public function logout(Request $request)
+    {
+        //auth()->user()->tokens()->delete();
+        // Revoke all tokens...
+        // $user->tokens()->delete();
+        // Revoke a specific token...
+        // $user->tokens()->where('id', $tokenId)->delete();
+
+        // Revoke the token that was used to authenticate the current request...
+        $request->user()->currentAccessToken()->delete();
         return [
             'message' => 'Logged out'
         ];
