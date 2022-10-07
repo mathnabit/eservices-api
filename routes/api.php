@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ServiceController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -33,4 +34,10 @@ Route::get('/services',[ServiceController::class, 'index']);
 Route::post('/services',[ServiceController::class, 'store']);
 Route::put('/services/{id}',[ServiceController::class, 'update']);
 Route::delete('/services/{id}',[ServiceController::class, 'destroy']);
+
+Route::get('/categories',[CategoryController::class, 'index']);
+Route::post('/categories',[CategoryController::class, 'store']);
+Route::post('/categories/{id}',[CategoryController::class, 'show']);
+Route::put('/categories/{id}',[CategoryController::class, 'update']);
+Route::delete('/categories/{id}',[CategoryController::class, 'destroy']);
 
