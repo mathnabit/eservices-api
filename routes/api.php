@@ -23,21 +23,23 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 // Protected routes
 Route::group(['middleware' => ['auth:sanctum']], function () {
+    // Authentication Routes
     Route::post('/logout',[AuthController::class, 'logout']);
     Route::get('/user',[AuthController::class, 'getUser']);
+
+    //Services Routes
+    Route::get('/services',[ServiceController::class, 'index']);
+    Route::post('/services',[ServiceController::class, 'store']);
+    Route::put('/services/{id}',[ServiceController::class, 'update']);
+    Route::delete('/services/{id}',[ServiceController::class, 'destroy']);
+
+    //Categories Routes
+    Route::get('/categories',[CategoryController::class, 'index']);
+    Route::post('/categories',[CategoryController::class, 'store']);
+    Route::get('/categories/{id}',[CategoryController::class, 'show']);
+    Route::put('/categories/{id}',[CategoryController::class, 'update']);
+    Route::delete('/categories/{id}',[CategoryController::class, 'destroy']);
 });
 
 Route::post('/register',[AuthController::class, 'register']);
 Route::post('/login',[AuthController::class, 'login']);
-
-Route::get('/services',[ServiceController::class, 'index']);
-Route::post('/services',[ServiceController::class, 'store']);
-Route::put('/services/{id}',[ServiceController::class, 'update']);
-Route::delete('/services/{id}',[ServiceController::class, 'destroy']);
-
-Route::get('/categories',[CategoryController::class, 'index']);
-Route::post('/categories',[CategoryController::class, 'store']);
-Route::post('/categories/{id}',[CategoryController::class, 'show']);
-Route::put('/categories/{id}',[CategoryController::class, 'update']);
-Route::delete('/categories/{id}',[CategoryController::class, 'destroy']);
-
