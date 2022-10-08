@@ -19,6 +19,7 @@ class CreateServicesTable extends Migration
             $table->string('description')->nullable();
             $table->string('service_url');
             $table->string('image_url');
+            $table->boolean('showDescription')->nullable()->default(false);
             $table->foreignId('category_id')->constrained('categories');
             $table->timestamps();
         });
