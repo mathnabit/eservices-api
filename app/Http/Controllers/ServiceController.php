@@ -25,19 +25,28 @@ class ServiceController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'title' => 'required',
-            'service_url' => 'required',
-            'image_url' => 'required',
-            'category_id' => 'required',
+        // $request->validate([
+        //     'title' => 'required',
+        //     'service_url' => 'required',
+        //     'category_id' => 'required',
+        // ]);
+        // $request->validate([
+        //     'photo' => 'required|file|image|size:1024|dimensions:max_width=500,max_height=500',
+        // ]);
+        /**
+         * Store Service and photo
+         */
+        $request['service'] = json_decode($request['service'], true);
+        $service = Service::create([
+            'title' => $request['service']['title'],
+            'description' => $request['service']['description'],
+            'service_url' => $request['service']['service_url'],
+            'image_url' => '0.jpg',
+            'category_id' => $request['service']['category_id'],
         ]);
-        return Service::create([
-            'title' => $request->title,
-            'description' => $request->description,
-            'service_url' => $request->service_url,
-            'image_url' => $request->image_url,
-            'category_id' => $request->category_id,
-        ]);
+        $path = $request->photo->storeAs('public/images', $service->id.'.'.$request->photo->extension());
+        $service->update(['image_url' => $service->id.'.'.$request->photo->extension()]);
+        return $service;
     }
 
     /**
