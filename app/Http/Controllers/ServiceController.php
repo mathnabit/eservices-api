@@ -69,13 +69,26 @@ class ServiceController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * 
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        $service = Service::find($id);
-        $service->update($request->all());
+        $request['service'] = json_decode($request['service'], true);
+        $service = Service::find($request['service']['id']);
+        $service->update([
+            'title' => $request['service']['title'],
+            'description' => $request['service']['description'],
+            'service_url' => $request['service']['service_url'],
+            'category_id' => $request['service']['category_id'],
+        ]);
+        if($request->photo != null) {
+            $path = $request->photo->storeAs('public/images', $service->id.'.'.$request->photo->extension());
+            $service->update([
+                'image_url' => asset('storage/images/' . $service->id.'.'.$request->photo->extension())
+            ]);
+        }
+        
         return $service;
     }
 
