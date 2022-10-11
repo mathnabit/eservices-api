@@ -44,8 +44,13 @@ class ServiceController extends Controller
             'image_url' => '0.jpg',
             'category_id' => $request['service']['category_id'],
         ]);
-        $path = $request->photo->storeAs('public/images', $service->id.'.'.$request->photo->extension());
-        $service->update(['image_url' => $service->id.'.'.$request->photo->extension()]);
+        if($request->photo != null) {
+            $path = $request->photo->storeAs('public/images', $service->id.'.'.$request->photo->extension());
+            $service->update([
+                'image_url' => asset('storage/images/' . $service->id.'.'.$request->photo->extension())
+            ]);
+        }
+        
         return $service;
     }
 
