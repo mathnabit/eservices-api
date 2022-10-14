@@ -41,7 +41,7 @@ class ServiceController extends Controller
             'title' => $request['service']['title'],
             'description' => $request['service']['description'],
             'service_url' => $request['service']['service_url'],
-            'image_url' => '0.jpg',
+            'image_url' => asset('storage/images/0.jpg'),
             'category_id' => $request['service']['category_id'],
         ]);
         if($request->photo != null) {
