@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Service;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class ServiceController extends Controller
 {
@@ -100,6 +102,11 @@ class ServiceController extends Controller
      */
     public function destroy($id)
     {
+        $service = Service::find($id);
+        $ext = explode('.', $service->image_url);
+        if(Storage::disk('public')->exists('images/'.$id.'.'.$ext[count($ext)-1])) {
+            Storage::disk('public')->delete('images/'.$id.'.'.$ext[count($ext)-1]);
+        }
         return Service::destroy($id);
     }
 }
